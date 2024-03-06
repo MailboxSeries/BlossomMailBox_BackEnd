@@ -2,7 +2,7 @@
 name: "[ Feature ] - Feature request"
 about: "✨ Feature Template "
 title: "[ Feature ] - "
-labels: ''
+labels: feature
 assignees: ''
 
 ---
