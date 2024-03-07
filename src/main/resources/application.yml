@@ -1,8 +1,10 @@
 spring:
-  profiles.active: local
+  web:
+    resources:
+      add-mappings: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/blossom?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/blossom?useSSL=false&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: 'root'
     password: qwer1234
     hikari:
@@ -12,9 +14,10 @@ spring:
       username: ${spring.datasource.username}
       password: ${spring.datasource.password}
       driver-class-name: ${spring.datasource.driver-class-name}
+#      idleTimeout: 300
+#      maxLifeTime: 300
       data-source-properties:
         rewriteBatchedStatements: true
-  # JPA ??
   jpa:
     generate-ddl: true
     hibernate:
@@ -23,11 +26,25 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-        #        hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+        # hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
         current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
         default_batch_fetch_size: ${chunkSize:100}
         jdbc.batch_size: 20
         order_inserts: true
         order_updates: true
         format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+jwt:
+  secret-key: 38rhtw34oq4f8w3h4jh8w9uefrfjr9f384oj8e99hn3owtrggh488ewfhofuj2j3jfer9th498fejhq490rfj2
+  access-token-expire-period: 7200
+  refresh-token-expire-period: 1209600
+
+server:
+  http-address: http://localhost:5173
+  https-address: https://localhost:5173
+
 

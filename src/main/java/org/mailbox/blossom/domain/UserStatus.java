@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.mailbox.blossom.dto.type.EGender;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Table(name = "user_status")
@@ -12,7 +14,7 @@ public class UserStatus {
 
     @Id
     @Column(name = "user_id")
-    private String id;
+    private UUID id;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
