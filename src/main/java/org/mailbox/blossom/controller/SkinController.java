@@ -33,4 +33,13 @@ public class SkinController {
         return ResponseDto.ok(null);
     }
 
+    // 2-4. 스킨 상태 변경
+    @PatchMapping("")
+    public ResponseDto<?> changeSkinStatus(
+            @UserId String encodedUserId, @RequestBody SkinInfoDto skinInfoDto
+    ) {
+        updateSkinUserCase.updateSkin(encodedUserId, skinInfoDto);
+        return ResponseDto.ok(null);
+    }
+
 }
