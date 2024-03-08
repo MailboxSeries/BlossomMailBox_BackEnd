@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum EStatus {
-    DISABLED("disable"),
-    ACTIVE("active"),
-    INACTIVE("inactive"),
+    HAVING("having"),
+    UNLOCK("unlock"),
+    LOCK("lock")
 
     ;
 

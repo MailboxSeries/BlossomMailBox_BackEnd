@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.mailbox.blossom.dto.type.EGender;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Table(name = "user_status")
@@ -12,7 +14,7 @@ public class UserStatus {
 
     @Id
     @Column(name = "user_id")
-    private String id;
+    private UUID id;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
@@ -43,5 +45,19 @@ public class UserStatus {
     @MapsId
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public UserStatus(User user) {
+        this.user = user;
+
+        this.gender = EGender.MAN;
+        this.skinTop = 1;
+        this.skinHair = 1;
+        this.skinFace = 1;
+        this.skinBottom = 1;
+        this.skinLeftStore = 1;
+        this.skinRightStore = 1;
+        this.skinAnimal = 1;
+    }
 
 }
