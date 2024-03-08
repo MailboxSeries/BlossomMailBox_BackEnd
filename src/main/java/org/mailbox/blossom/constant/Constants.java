@@ -8,6 +8,14 @@ public class Constants {
     public static String USER_ROLE_CLAIM_NAME = "rol";
     public static String BEARER_PREFIX = "Bearer ";
     public static String AUTHORIZATION_HEADER = "Authorization";
+    public static String HAIR_SKIN = "hair";
+    public static String FACE_SKIN = "face";
+    public static String TOP_SKIN = "top";
+    public static String BOTTOM_SKIN = "bottom";
+    public static String ANIMAL_SKIN = "cat";
+    public static String RIGHT_STORE_SKIN = "rightStore";
+    public static String LEFT_STORE_SKIN = "leftStore";
+
 
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             "/guest/**",
