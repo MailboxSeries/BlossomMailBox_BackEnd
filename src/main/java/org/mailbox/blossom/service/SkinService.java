@@ -1,16 +1,21 @@
 package org.mailbox.blossom.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.mailbox.blossom.domain.Item;
 import org.mailbox.blossom.domain.Skin;
 import org.mailbox.blossom.domain.User;
+import org.mailbox.blossom.domain.UserStatus;
+import org.mailbox.blossom.dto.request.SkinInfoDto;
 import org.mailbox.blossom.dto.response.SkinListDto;
+import org.mailbox.blossom.dto.type.EGender;
 import org.mailbox.blossom.dto.type.EStatus;
 import org.mailbox.blossom.dto.type.ErrorCode;
 import org.mailbox.blossom.exception.CommonException;
 import org.mailbox.blossom.repository.ItemRepository;
 import org.mailbox.blossom.repository.SkinRepository;
 import org.mailbox.blossom.repository.UserRepository;
+import org.mailbox.blossom.repository.UserStatusRepository;
 import org.mailbox.blossom.usecase.ReadSkinUseCase;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +28,7 @@ public class SkinService implements ReadSkinUseCase {
     private final SkinRepository skinRepository;
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
+    private final UserStatusRepository userStatusRepository;
 
     @Override
     public SkinListDto readSkin(String userId) {
@@ -66,6 +72,27 @@ public class SkinService implements ReadSkinUseCase {
         });
 
         return SkinListDto.of(having, unlock, lock);
+    }
+
+    @Transactional
+    public void updateSkin(String userId, SkinInfoDto skinInfoDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        UserStatus userStatus = userStatusRepository.findById(user.getId().toString())
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER_STATUS));
+
+        userStatus.updateSkinInfo(
+                EGender.valueOf(skinInfoDto.sex()),
+                skinInfoDto.top(),
+                skinInfoDto.bottom(),
+                skinInfoDto.hair(),
+                skinInfoDto.face(),
+                skinInfoDto.animal(),
+                skinInfoDto.rightStore(),
+                skinInfoDto.leftStore());
+
+        userStatusRepository.save(userStatus);
     }
 
 }
