@@ -12,6 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/letters")
@@ -32,7 +35,7 @@ public class LetterController {
     public ResponseDto<?> writeLetter(@UserId String userId,
                                       @Valid @RequestPart("body") LetterDetailDto letterDetailDto,
                                       @RequestPart("image") MultipartFile image
-                                      ) {
+                                      ) throws IllegalBlockSizeException, BadPaddingException {
         writeLetterUseCase.writeLetter(userId, letterDetailDto, image);
         return ResponseDto.created(null);
     }
