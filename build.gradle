@@ -51,6 +51,10 @@ dependencies {
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // NCP
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.1.0'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.657'
 }
 
 tasks.named('test') {

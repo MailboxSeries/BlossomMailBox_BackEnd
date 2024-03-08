@@ -40,10 +40,12 @@ public class AttendanceResultDto extends SelfValidating<AttendanceResultDto> {
                 .build();
     }
 
+
     public static AttendanceResultDto of(Boolean getCat, Integer catID) {
         return AttendanceResultDto.builder()
                 .getCat(getCat)
                 .catID(catID)
                 .build();
     }
+
 }

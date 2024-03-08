@@ -1,5 +1,6 @@
 package org.mailbox.blossom.constant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Constants {
@@ -15,7 +16,11 @@ public class Constants {
     public static String ANIMAL_SKIN = "cat";
     public static String RIGHT_STORE_SKIN = "rightStore";
     public static String LEFT_STORE_SKIN = "leftStore";
+    public static String LETTER_DISABLE_STATUS = "disable";
+    public static String LETTER_ACTIVE_STATUS = "active";
+    public static String LETTER_INACTIVE_STATUS = "inactive";
 
+    public static LocalDate START_DATE = LocalDate.of(2024, 3, 10);
 
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             "/api/v1/auth/reissue",
