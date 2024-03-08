@@ -9,6 +9,7 @@ import org.mailbox.blossom.dto.type.ErrorCode;
 import org.mailbox.blossom.exception.CommonException;
 import org.mailbox.blossom.repository.UserRepository;
 import org.mailbox.blossom.usecase.ReissueJWTUseCase;
+import org.mailbox.blossom.usecase.WithdrawalUseCase;
 import org.mailbox.blossom.utility.JwtUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements ReissueJWTUseCase {
+public class AuthService implements ReissueJWTUseCase, WithdrawalUseCase {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
@@ -40,5 +41,14 @@ public class AuthService implements ReissueJWTUseCase {
         userRepository.updateRefreshToken(user.getId(), jwtTokenDto.getRefreshToken());
 
         return jwtTokenDto;
+    }
+
+    @Override
+    @Transactional
+    public void withdrawal(String userId) {
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        userRepository.delete(user);
     }
 }
