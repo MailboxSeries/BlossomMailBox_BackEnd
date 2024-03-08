@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.mailbox.blossom.dto.type.EStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,7 +20,7 @@ public class Item {
     private Long id;
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -34,7 +35,7 @@ public class Item {
     private Skin skin;
 
     @Builder
-    public Item(User user, Skin skin, EStatus status, LocalDateTime createdAt) {
+    public Item(User user, Skin skin, EStatus status, LocalDate createdAt) {
         this.user = user;
         this.skin = skin;
         this.status = status;
@@ -46,7 +47,7 @@ public class Item {
                 .user(user)
                 .skin(skin)
                 .status(status)
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDate.now())
                 .build();
     }
 
