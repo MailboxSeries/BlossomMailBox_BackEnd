@@ -26,7 +26,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByUser(User user);
 
     @Query("SELECT i FROM Item i WHERE i.skin.name LIKE CONCAT('%', :type, '%') AND i.skin.arrayId = :arrayId AND i.user.id = :userId")
-    Optional<Item> findItemByTypeAndArrayIdAndUserId(@Param("type") String type, @Param("arrayId") Integer arrayId, @Param("userId") String userId);
+    Optional<Item> findItemByTypeAndArrayIdAndUserId(@Param("type") String type, @Param("arrayId") Integer arrayId, @Param("userId") UUID userId);
 
 
 }
