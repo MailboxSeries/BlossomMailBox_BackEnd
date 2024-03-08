@@ -1,5 +1,6 @@
 package org.mailbox.blossom.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mailbox.blossom.annotation.UserId;
 import org.mailbox.blossom.dto.common.ResponseDto;
@@ -30,7 +31,7 @@ public class SkinController {
     // 2-3. 스킨 장착 상태 변경
     @PutMapping("")
     public ResponseDto<?> changeSkin(
-            @UserId String encodedUserId, @RequestBody SkinInfoDto skinInfoDto
+            @UserId String encodedUserId, @Valid @RequestBody SkinInfoDto skinInfoDto
     ) {
         updateSkinUserCase.updateSkin(encodedUserId, skinInfoDto);
         return ResponseDto.ok(null);
@@ -39,7 +40,7 @@ public class SkinController {
     // 2-4. 스킨 상태 변경
     @PatchMapping("")
     public ResponseDto<?> changeSkinStatus(
-            @UserId String encodedUserId, @RequestBody SkinStatusInfoDto skinStatusInfoDto
+            @UserId String encodedUserId, @Valid @RequestBody SkinStatusInfoDto skinStatusInfoDto
     ) {
         updateSkinStatusUserCase.updateSkinStatus(encodedUserId, skinStatusInfoDto);
         return ResponseDto.ok(null);

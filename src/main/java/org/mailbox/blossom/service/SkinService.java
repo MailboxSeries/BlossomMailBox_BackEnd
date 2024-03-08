@@ -84,7 +84,7 @@ public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSk
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        UserStatus userStatus = userStatusRepository.findById(user.getId().toString())
+        UserStatus userStatus = userStatusRepository.findById(user.getId())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER_STATUS));
 
         userStatus.updateSkinInfo(
