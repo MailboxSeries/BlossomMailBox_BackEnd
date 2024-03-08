@@ -1,6 +1,5 @@
 package org.mailbox.blossom.security.handler.oauth2;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +36,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         JwtTokenDto jwtTokenDto = jwtUtil.generateTokens(userPrincipal.getId(), userPrincipal.getRole());
 
-        userRepository.updateRefreshTokenAndLoginStatus(userPrincipal.getId(), jwtTokenDto.getRefreshToken());
+        userRepository.updateRefreshToken(userPrincipal.getId(), jwtTokenDto.getRefreshToken());
 
         CookieUtil.addCookie(response, "accessToken", jwtTokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, "refreshToken", jwtTokenDto.getRefreshToken(), jwtUtil.getRefreshTokenExpirePeriod());
+        CookieUtil.addSecureCookie(response, "refreshToken", jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresInRefreshToken());
 
         response.sendRedirect(address + "/redirect");
     }

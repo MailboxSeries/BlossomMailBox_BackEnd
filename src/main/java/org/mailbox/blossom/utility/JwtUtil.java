@@ -24,7 +24,7 @@ public class JwtUtil implements InitializingBean {
     private String secretKey;
     @Value("${jwt.access-token-expire-period}")
     private Integer accessTokenExpirePeriod;
-    @Getter @Value("${jwt.refresh-token-expire-period}")
+    @Value("${jwt.refresh-token-expire-period}")
     private Integer refreshTokenExpirePeriod;
 
     private Key key;
@@ -38,7 +38,8 @@ public class JwtUtil implements InitializingBean {
     public JwtTokenDto generateTokens(UUID id, ERole role) {
         return new JwtTokenDto(
                 generateToken(id, role, accessTokenExpirePeriod * 1000),
-                generateToken(id, null, refreshTokenExpirePeriod * 1000));
+                generateToken(id, null, refreshTokenExpirePeriod * 1000),
+                refreshTokenExpirePeriod);
     }
 
     public Claims validateToken(String token) {
