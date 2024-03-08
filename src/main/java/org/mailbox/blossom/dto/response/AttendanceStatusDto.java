@@ -1,5 +1,6 @@
 package org.mailbox.blossom.dto.response;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import org.mailbox.blossom.dto.common.SelfValidating;
@@ -7,6 +8,7 @@ import org.mailbox.blossom.dto.common.SelfValidating;
 @Getter
 public class AttendanceStatusDto extends SelfValidating<AttendanceStatusDto> {
 
+    @NotNull(message = "attendanceCompleted must not be null")
     private final Boolean attendanceCompleted;
 
     @Builder
