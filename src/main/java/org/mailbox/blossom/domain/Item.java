@@ -49,4 +49,8 @@ public class Item {
                 .createdAt(LocalDateTime.now())
                 .build();
     }
+
+    public void updateStatus(EStatus status) {
+        this.status = status;
+    }
 }
