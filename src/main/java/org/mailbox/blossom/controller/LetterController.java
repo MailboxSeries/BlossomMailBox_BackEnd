@@ -6,6 +6,7 @@ import org.mailbox.blossom.annotation.UserId;
 import org.mailbox.blossom.dto.common.ResponseDto;
 import org.mailbox.blossom.dto.request.LetterDetailDto;
 import org.mailbox.blossom.usecase.ReadLetterByDateUseCase;
+import org.mailbox.blossom.usecase.ReadLetterDetailUseCase;
 import org.mailbox.blossom.usecase.ReadLetterUseCase;
 import org.mailbox.blossom.usecase.WriteLetterUseCase;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ public class LetterController {
     private final ReadLetterUseCase readLetterUseCase;
     private final WriteLetterUseCase writeLetterUseCase;
     private final ReadLetterByDateUseCase readLetterByDateUseCase;
+    private final ReadLetterDetailUseCase readLetterDetailUseCase;
 
     // 3-2. 편지 목록 확인
     @GetMapping("/list")
@@ -46,5 +48,10 @@ public class LetterController {
         return ResponseDto.ok(readLetterByDateUseCase.readLettersByDate(userId, index));
     }
 
+    // 3=5. 해당 받은 편지 확인
+    @GetMapping("/{letterId}")
+    public ResponseDto<?> readLetterDetail(@UserId String userId, @PathVariable Long letterId) {
+        return ResponseDto.ok(readLetterDetailUseCase.readLetterDetail(userId, letterId));
+    }
 
 }

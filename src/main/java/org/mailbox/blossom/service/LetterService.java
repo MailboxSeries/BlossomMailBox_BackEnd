@@ -2,10 +2,12 @@ package org.mailbox.blossom.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.mailbox.blossom.constant.Constants;
 import org.mailbox.blossom.domain.Letter;
 import org.mailbox.blossom.domain.User;
 import org.mailbox.blossom.dto.request.LetterDetailDto;
+import org.mailbox.blossom.dto.response.LetterDetailInfoDto;
+import org.mailbox.blossom.dto.response.LetterDetailInfoDto.ReplyLetter;
+import org.mailbox.blossom.dto.response.LetterDetailInfoDto.SendLetter;
 import org.mailbox.blossom.dto.response.LetterListByDateDto;
 import org.mailbox.blossom.dto.response.LetterStatusListDto;
 import org.mailbox.blossom.dto.type.ErrorCode;
@@ -13,6 +15,7 @@ import org.mailbox.blossom.exception.CommonException;
 import org.mailbox.blossom.repository.LetterRepository;
 import org.mailbox.blossom.repository.UserRepository;
 import org.mailbox.blossom.usecase.ReadLetterByDateUseCase;
+import org.mailbox.blossom.usecase.ReadLetterDetailUseCase;
 import org.mailbox.blossom.usecase.ReadLetterUseCase;
 import org.mailbox.blossom.usecase.WriteLetterUseCase;
 import org.mailbox.blossom.utility.CryptUtil;
@@ -31,7 +34,7 @@ import static org.mailbox.blossom.constant.Constants.*;
 
 @Service
 @RequiredArgsConstructor
-public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, ReadLetterByDateUseCase {
+public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, ReadLetterByDateUseCase, ReadLetterDetailUseCase {
     private final UserRepository userRepository;
     private final LetterRepository letterRepository;
     private final StorageUtil storageUtil;
@@ -107,5 +110,19 @@ public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, Rea
                 .collect(Collectors.toList());
 
         return LetterListByDateDto.of(letterByDates);
+    }
+
+
+    @Override
+    public LetterDetailInfoDto readLetterDetail(String userId, Long letterId) {
+        Letter letter = letterRepository.findWithUserById(letterId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_LETTER));
+
+
+        return LetterDetailInfoDto.of(
+                SendLetter.of(letter.getParentLetter().getImageUrl(), letter.getParentLetter().getContent()),
+                ReplyLetter.of(letter.getImageUrl(), letter.getContent(), letter.getSender())
+        );
+
     }
 }
