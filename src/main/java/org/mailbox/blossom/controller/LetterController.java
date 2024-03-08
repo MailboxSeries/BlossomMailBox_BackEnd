@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.mailbox.blossom.annotation.UserId;
 import org.mailbox.blossom.dto.common.ResponseDto;
 import org.mailbox.blossom.dto.request.LetterDetailDto;
+import org.mailbox.blossom.usecase.ReadLetterByDateUseCase;
 import org.mailbox.blossom.usecase.ReadLetterUseCase;
 import org.mailbox.blossom.usecase.WriteLetterUseCase;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ public class LetterController {
 
     private final ReadLetterUseCase readLetterUseCase;
     private final WriteLetterUseCase writeLetterUseCase;
+    private final ReadLetterByDateUseCase readLetterByDateUseCase;
 
     // 3-2. 편지 목록 확인
     @GetMapping("/list")
@@ -34,5 +36,12 @@ public class LetterController {
         writeLetterUseCase.writeLetter(userId, letterDetailDto, image);
         return ResponseDto.created(null);
     }
+
+    // 3-4. 날짜별 받은 편지 목록 확인
+    @GetMapping("")
+    public ResponseDto<?> readLettersByDate(@UserId String userId, @RequestParam Long index) {
+        return ResponseDto.ok(readLetterByDateUseCase.readLettersByDate(userId, index));
+    }
+
 
 }

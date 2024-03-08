@@ -6,6 +6,9 @@ import lombok.Builder;
 @Builder
 public record LetterDetailDto(
         Integer id,
+
+        String receiverId,
+
         @Size(max = 10, message = "Sender name should be less than 10 characters")
         String sender,
         @Size(max = 200, message = "Letter content should be less than 200 characters")

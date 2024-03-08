@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,6 +21,9 @@ public class Letter {
     @Column(name = "sender")
     private String sender;
 
+    @Column(name = "receiver")
+    private String receiver;
+
     @Column(name = "content")
     private String content;
 
@@ -27,7 +31,7 @@ public class Letter {
     private String imageUrl;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -38,18 +42,20 @@ public class Letter {
     private Letter parentLetter;
 
     @Builder
-    public Letter(String sender, String content, String imageUrl, User user, Letter parentLetter) {
+    public Letter(String sender, String receiver, String content, String imageUrl, User user, Letter parentLetter) {
         this.sender = sender;
+        this.receiver = receiver;
         this.content = content;
         this.imageUrl = imageUrl;
         this.user = user;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDate.now();
         this.parentLetter = parentLetter;
     }
 
-    public static Letter createLetter(String sender, String content, String imageUrl, User user, Letter parentLetter) {
+    public static Letter createLetter(String sender, String receiver, String content, String imageUrl, User user, Letter parentLetter) {
         return Letter.builder()
                 .sender(sender)
+                .receiver(receiver)
                 .content(content)
                 .imageUrl(imageUrl)
                 .user(user)
