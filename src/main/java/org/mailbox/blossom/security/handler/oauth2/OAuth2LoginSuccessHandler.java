@@ -7,6 +7,7 @@ import org.mailbox.blossom.dto.response.JwtTokenDto;
 import org.mailbox.blossom.repository.UserRepository;
 import org.mailbox.blossom.security.info.UserPrincipal;
 import org.mailbox.blossom.utility.CookieUtil;
+import org.mailbox.blossom.utility.CryptUtil;
 import org.mailbox.blossom.utility.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
 
     private final JwtUtil jwtUtil;
+    private final CryptUtil cryptUtil;
 
     @Override
     @Transactional
@@ -41,6 +43,14 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         CookieUtil.addCookie(response, "accessToken", jwtTokenDto.getAccessToken());
         CookieUtil.addSecureCookie(response, "refreshToken", jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresInRefreshToken());
 
-        response.sendRedirect(address + "/redirect");
+        String encodedUserId;
+
+        try {
+            encodedUserId = cryptUtil.encrypt(userPrincipal.getId().toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        response.sendRedirect(address + "/home?u=" + encodedUserId);
     }
 }
