@@ -1,14 +1,20 @@
 package org.mailbox.blossom.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.mailbox.blossom.domain.Letter;
 import org.mailbox.blossom.domain.User;
+import org.mailbox.blossom.dto.request.LetterDetailDto;
 import org.mailbox.blossom.dto.response.LetterStatusListDto;
 import org.mailbox.blossom.dto.type.ErrorCode;
 import org.mailbox.blossom.exception.CommonException;
 import org.mailbox.blossom.repository.LetterRepository;
 import org.mailbox.blossom.repository.UserRepository;
 import org.mailbox.blossom.usecase.ReadLetterUseCase;
+import org.mailbox.blossom.usecase.WriteLetterUseCase;
+import org.mailbox.blossom.utility.StorageUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,9 +24,10 @@ import static org.mailbox.blossom.constant.Constants.*;
 
 @Service
 @RequiredArgsConstructor
-public class LetterService implements ReadLetterUseCase {
+public class LetterService implements ReadLetterUseCase, WriteLetterUseCase {
     private final UserRepository userRepository;
     private final LetterRepository letterRepository;
+    private final StorageUtil storageUtil;
 
     @Override
     public LetterStatusListDto readLetters(String userId) {
@@ -48,4 +55,26 @@ public class LetterService implements ReadLetterUseCase {
 
         return LetterStatusListDto.of(statusList);
     }
+
+    @Override
+    @Transactional
+    public void writeLetter(String userId, LetterDetailDto letterDetailDto, MultipartFile image) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        String fileUrl = null;
+        if (image != null && !image.isEmpty()) {
+            fileUrl = storageUtil.uploadFile(image);
+        }
+
+        if (letterDetailDto.id() == null) {
+            letterRepository.save(Letter.createLetter(letterDetailDto.sender(), letterDetailDto.Content(), fileUrl, user, null));
+        } else {
+            Letter letter = letterRepository.findWithUserById(Long.valueOf(letterDetailDto.id()))
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_LETTER));
+
+            letterRepository.save(Letter.createLetter(letter.getUser().getNickname(), letterDetailDto.Content(), fileUrl, user, letter));
+        }
+    }
+
 }

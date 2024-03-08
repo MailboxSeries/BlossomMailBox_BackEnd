@@ -18,6 +18,7 @@ public enum ErrorCode {
     NOT_FOUND_SKIN(40403, HttpStatus.NOT_FOUND, "해당 스킨이 존재하지 않습니다."),
     NOT_FOUND_USER_STATUS(40404, HttpStatus.NOT_FOUND, "해당 유저상태가 존재하지 않습니다." ),
     NOT_FOUND_ITEM(40405, HttpStatus.NOT_FOUND, "해당 아이템을 찾을 수 없습니다" ),
+    NOT_FOUND_LETTER(40406, HttpStatus.NOT_FOUND, "해당 편지가 존재하지 않습니다."),
 
 
 
