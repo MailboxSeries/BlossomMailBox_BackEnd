@@ -46,4 +46,18 @@ public class UserStatus {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder
+    public UserStatus(User user) {
+        this.user = user;
+
+        this.gender = EGender.MAN;
+        this.skinTop = 1;
+        this.skinHair = 1;
+        this.skinFace = 1;
+        this.skinBottom = 1;
+        this.skinLeftStore = 1;
+        this.skinRightStore = 1;
+        this.skinAnimal = 1;
+    }
+
 }

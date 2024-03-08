@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "skins")
 public class Skin {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "array_id")

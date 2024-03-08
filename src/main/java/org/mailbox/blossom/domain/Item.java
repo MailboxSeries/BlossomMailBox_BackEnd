@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "inventories")
-public class Inventory {
+@Table(name = "items")
+public class Item {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "created_at", nullable = false)
@@ -30,22 +30,23 @@ public class Inventory {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "skin_id")
     private Skin skin;
 
     @Builder
-    public Inventory(User user, Skin skin, EStatus status) {
+    public Item(User user, Skin skin, EStatus status, LocalDateTime createdAt) {
         this.user = user;
         this.skin = skin;
         this.status = status;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt;
     }
 
-    public static Inventory createInventory(User user, Skin skin, EStatus status) {
-        return Inventory.builder()
+    public static Item createItem(User user, Skin skin, EStatus status) {
+        return Item.builder()
                 .user(user)
                 .skin(skin)
                 .status(status)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 }

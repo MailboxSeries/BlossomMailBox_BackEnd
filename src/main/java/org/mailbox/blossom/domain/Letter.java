@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "letters")
 public class Letter {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "sender")
