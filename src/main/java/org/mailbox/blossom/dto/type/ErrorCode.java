@@ -16,7 +16,8 @@ public enum ErrorCode {
     NOT_FOUND_AUTHORIZATION_HEADER(40401, HttpStatus.NOT_FOUND, "Authorization 헤더가 존재하지 않습니다."),
     NOT_FOUND_USER(40402, HttpStatus.NOT_FOUND, "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_SKIN(40403, HttpStatus.NOT_FOUND, "해당 스킨이 존재하지 않습니다."),
-    NOT_FOUND_USER_STATUS(40404, HttpStatus.NOT_FOUND, "해당 유저상태가 존재하지 않흣빈다." ),
+    NOT_FOUND_USER_STATUS(40404, HttpStatus.NOT_FOUND, "해당 유저상태가 존재하지 않습니다." ),
+    NOT_FOUND_ITEM(40405, HttpStatus.NOT_FOUND, "해당 아이템을 찾을 수 없습니다" ),
 
 
 
@@ -51,7 +52,6 @@ public enum ErrorCode {
 
     // External Server Error
     EXTERNAL_SERVER_ERROR(50200, HttpStatus.BAD_GATEWAY, "서버 외부 에러입니다."),
-
 
 
 

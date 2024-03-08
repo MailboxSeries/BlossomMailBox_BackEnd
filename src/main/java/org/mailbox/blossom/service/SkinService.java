@@ -7,6 +7,7 @@ import org.mailbox.blossom.domain.Skin;
 import org.mailbox.blossom.domain.User;
 import org.mailbox.blossom.domain.UserStatus;
 import org.mailbox.blossom.dto.request.SkinInfoDto;
+import org.mailbox.blossom.dto.request.SkinStatusInfoDto;
 import org.mailbox.blossom.dto.response.SkinListDto;
 import org.mailbox.blossom.dto.type.EGender;
 import org.mailbox.blossom.dto.type.EStatus;
@@ -17,13 +18,15 @@ import org.mailbox.blossom.repository.SkinRepository;
 import org.mailbox.blossom.repository.UserRepository;
 import org.mailbox.blossom.repository.UserStatusRepository;
 import org.mailbox.blossom.usecase.ReadSkinUseCase;
+import org.mailbox.blossom.usecase.UpdateSkinStatusUserCase;
+import org.mailbox.blossom.usecase.UpdateSkinUseCase;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class SkinService implements ReadSkinUseCase {
+public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSkinStatusUserCase {
 
     private final SkinRepository skinRepository;
     private final UserRepository userRepository;
@@ -34,22 +37,22 @@ public class SkinService implements ReadSkinUseCase {
     public SkinListDto readSkin(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-        List<Item> items = itemRepository.findByUser(user);
+        List<Item> itemList = itemRepository.findByUser(user);
 
-        List<Skin> allSkins = skinRepository.findAll();
+        List<Skin> skinList = skinRepository.findAll();
 
         Map<String, List<Integer>> having = new HashMap<>();
         Map<String, List<Integer>> unlock = new HashMap<>();
         Map<String, List<Integer>> lock = new HashMap<>();
 
-        allSkins.forEach(skin -> {
+        skinList.forEach(skin -> {
             String category = skin.getName().split("[0-9]+")[0];
 
             having.computeIfAbsent(category, k -> new ArrayList<>());
             unlock.computeIfAbsent(category, k -> new ArrayList<>());
             lock.computeIfAbsent(category, k -> new ArrayList<>());
 
-            Item ownedItem = items.stream()
+            Item ownedItem = itemList.stream()
                     .filter(item -> item.getSkin().equals(skin))
                     .findFirst()
                     .orElse(null);
@@ -74,6 +77,8 @@ public class SkinService implements ReadSkinUseCase {
         return SkinListDto.of(having, unlock, lock);
     }
 
+
+    @Override
     @Transactional
     public void updateSkin(String userId, SkinInfoDto skinInfoDto) {
         User user = userRepository.findById(userId)
@@ -95,4 +100,19 @@ public class SkinService implements ReadSkinUseCase {
         userStatusRepository.save(userStatus);
     }
 
+
+
+    @Override
+    @Transactional
+    public void updateSkinStatus(String userId, SkinStatusInfoDto skinStatusInfoDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
+
+        Item item = itemRepository.findItemByTypeAndArrayIdAndUserId(skinStatusInfoDto.type(), skinStatusInfoDto.index(), userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ITEM));
+
+        item.updateStatus(EStatus.UNLOCK);
+
+        itemRepository.save(item);
+    }
 }
