@@ -11,10 +11,10 @@ public class Constants {
 
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             "/guest/**",
-            "/auth/sign-in",
-            "/auth/sign-up",
+            "/oauth2/authorization/naver",
             "/oauth2/authorization/kakao",
             "/oauth2/authorization/google",
+            "/login/oauth2/code/naver",
             "/login/oauth2/code/kakao",
             "/login/oauth2/code/google",
 

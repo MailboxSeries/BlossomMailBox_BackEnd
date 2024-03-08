@@ -90,4 +90,6 @@ jwt:
 server:
   client-address: http://localhost:5173
 
+crypt:
+  key: diejfkslwodnflsnvidowhfkdiehskds
 

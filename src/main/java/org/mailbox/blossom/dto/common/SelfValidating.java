@@ -2,6 +2,8 @@ package org.mailbox.blossom.dto.common;
 
 
 import jakarta.validation.*;
+import org.mailbox.blossom.dto.type.ErrorCode;
+import org.mailbox.blossom.exception.CommonException;
 
 import java.util.Set;
 
@@ -20,7 +22,7 @@ public abstract class SelfValidating<T> {
     protected void validateSelf() {
         Set<ConstraintViolation<T>> violations = validator.validate((T) this);
         if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
+            throw new CommonException(ErrorCode.INTERNAL_DATA_ERROR);
         }
     }
 }
