@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                     .user(user)
                                     .skin(skin)
                                     .status(EStatus.HAVING)
-                                    .createdAt(LocalDateTime.now().minusDays(1))
+                                    .createdAt(LocalDate.now().minusDays(1))
                                     .build())
                             .toList();
 
