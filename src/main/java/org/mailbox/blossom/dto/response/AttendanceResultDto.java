@@ -10,6 +10,8 @@ import org.mailbox.blossom.dto.common.SelfValidating;
 import java.util.List;
 import java.util.Optional;
 
+import org.mailbox.blossom.dto.common.SelfValidating;
+
 @Getter
 public class AttendanceResultDto extends SelfValidating<AttendanceResultDto> {
 
@@ -35,6 +37,13 @@ public class AttendanceResultDto extends SelfValidating<AttendanceResultDto> {
         return AttendanceResultDto.builder()
                 .getCat(foundCat)
                 .catID(foundCatId)
+                .build();
+    }
+}
+    public static AttendanceResultDto of(Boolean getCat, Integer catID) {
+        return AttendanceResultDto.builder()
+                .getCat(getCat)
+                .catID(catID)
                 .build();
     }
 }

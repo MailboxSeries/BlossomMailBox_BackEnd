@@ -50,4 +50,8 @@ public class Item {
                 .createdAt(LocalDate.now())
                 .build();
     }
+
+    public void updateStatus(EStatus status) {
+        this.status = status;
+    }
 }

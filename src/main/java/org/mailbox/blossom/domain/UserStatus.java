@@ -60,4 +60,16 @@ public class UserStatus {
         this.skinAnimal = 1;
     }
 
+
+    public void updateSkinInfo(EGender gender, int top, int bottom, int hair, int face, int animal, int rightStore, int leftStore) {
+        this.gender = gender;
+        this.skinTop = top;
+        this.skinBottom = bottom;
+        this.skinHair = hair;
+        this.skinFace = face;
+        this.skinAnimal = animal;
+        this.skinRightStore = rightStore;
+        this.skinLeftStore = leftStore;
+    }
+
 }
