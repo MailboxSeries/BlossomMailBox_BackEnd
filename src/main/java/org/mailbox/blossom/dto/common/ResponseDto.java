@@ -1,6 +1,7 @@
 package org.mailbox.blossom.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.NotNull;
 import org.mailbox.blossom.dto.type.ErrorCode;
 import org.mailbox.blossom.exception.CommonException;
@@ -20,6 +21,10 @@ public record ResponseDto<T>(@JsonIgnore HttpStatus httpStatus,
 
     public static <T> ResponseDto<T> created(@Nullable final T data) {
         return new ResponseDto<>(HttpStatus.CREATED, true, data, null);
+    }
+
+    public static ResponseDto<Object> fail(final ConstraintViolationException e) {
+        return new ResponseDto<>(HttpStatus.BAD_REQUEST, false, null, new ArgumentNotValidExceptionDto(e));
     }
 
     public static ResponseDto<Object> fail(final MethodArgumentNotValidException e) {

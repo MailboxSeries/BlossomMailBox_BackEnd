@@ -1,5 +1,6 @@
 package org.mailbox.blossom.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.mailbox.blossom.dto.common.ResponseDto;
 import org.mailbox.blossom.dto.type.ErrorCode;
@@ -15,6 +16,13 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    // Validation 에서 검증 실패시 발생하는 예외
+    @ExceptionHandler(value = {ConstraintViolationException.class})
+    public ResponseDto<?> handleConstraintViolationException(ConstraintViolationException e) {
+        log.error("GlobalExceptionHandler catch ConstraintViolationException : {}", e.getMessage());
+        return ResponseDto.fail(e);
+    }
+
     // Convertor 에서 바인딩 실패시 발생하는 예외
     @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public ResponseDto<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
