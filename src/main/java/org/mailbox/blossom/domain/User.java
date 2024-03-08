@@ -9,6 +9,8 @@ import org.mailbox.blossom.dto.type.EProvider;
 import org.mailbox.blossom.dto.type.ERole;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -54,6 +56,12 @@ public class User {
     @PrimaryKeyJoinColumn
     private UserStatus userStatus;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Item> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Letter> letters = new ArrayList<>();
+
     @Builder
     public User(String nickname, String password, String serialId, EProvider provider, ERole role) {
         this.nickname = nickname;
@@ -63,13 +71,4 @@ public class User {
         this.role = role;
         this.createdAt = LocalDate.now();
     }
-
-    public static User createUser(String id, String nickname, String password, String serialId) {
-        return User.builder()
-                .nickname(nickname)
-                .password(password)
-                .serialId(serialId)
-                .build();
-    }
-
 }

@@ -14,7 +14,7 @@ public class UserController {
     private final EncodeUserUseCase encodeUserUseCase;
     private final ReadUserUseCase readUserUseCase;
 
-    @PostMapping("")
+    @PostMapping("/encoding")
     public ResponseDto<?> generateEncodingUserID(@UserId String uuid) {
         return ResponseDto.ok(encodeUserUseCase.encodeUserID(uuid));
     }

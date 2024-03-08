@@ -13,10 +13,14 @@ public class JwtTokenDto extends SelfValidating<JwtTokenDto> {
     @NotNull(message = "refreshToken must not be null")
     private final String refreshToken;
 
+    @NotNull(message = "expiresInAccessToken must not be null")
+    private final Integer expiresInRefreshToken;
+
     @Builder
-    public JwtTokenDto(String accessToken, String refreshToken) {
+    public JwtTokenDto(String accessToken, String refreshToken, Integer expiresInRefreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.expiresInRefreshToken = expiresInRefreshToken;
         validateSelf();
     }
 }

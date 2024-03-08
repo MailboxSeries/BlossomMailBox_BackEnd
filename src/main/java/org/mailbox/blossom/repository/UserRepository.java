@@ -15,6 +15,8 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findById(UUID id);
 
+    Optional<User> findByIdAndRefreshToken(UUID id, String refreshToken);
+
     @Query("select u.id as id, u.role as role, u.password as password from User u where u.id = :id and u.refreshToken is not null")
     Optional<UserSecurityForm> findFormById(UUID id);
 
@@ -23,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Modifying(clearAutomatically = true)
     @Query("update User u set u.refreshToken = :refreshToken where u.id = :id")
-    void updateRefreshTokenAndLoginStatus(UUID id, String refreshToken);
+    void updateRefreshToken(UUID id, String refreshToken);
 
     interface UserSecurityForm {
         UUID getId();
