@@ -25,6 +25,7 @@ import javax.crypto.IllegalBlockSizeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mailbox.blossom.constant.Constants.*;
 
@@ -96,6 +97,15 @@ public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, Rea
         LocalDate resultDate = startDate.plusDays(index).minusDays(1);
 
         List<Letter> letterList = letterRepository.findByUserAndCreatedAt(user, resultDate);
-        letterList.stream()
+
+        List<LetterListByDateDto.LetterByDate> letterByDates = letterList.stream()
+                .map(letter -> LetterListByDateDto.LetterByDate.of(
+                        letter.getId().intValue(),
+                        letter.getParentLetter() != null,
+                        letter.getSender()
+                ))
+                .collect(Collectors.toList());
+
+        return LetterListByDateDto.of(letterByDates);
     }
 }
