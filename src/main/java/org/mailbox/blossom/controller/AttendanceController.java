@@ -15,7 +15,7 @@ public class AttendanceController {
 
     private final CheckAttendanceUseCase checkAttendanceUseCase;
 
-
+    // 3-0. 출석 상태 확인하기
     @GetMapping("")
     public ResponseDto<?> checkAttendance(@UserId String userId) {
         return ResponseDto.ok(checkAttendanceUseCase.checkAttendance(userId));
