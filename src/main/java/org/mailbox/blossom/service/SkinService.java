@@ -111,7 +111,7 @@ public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSk
         Item item = itemRepository.findItemByTypeAndArrayIdAndUserId(skinStatusInfoDto.type(), skinStatusInfoDto.index(), user.getId())
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ITEM));
 
-        item.updateStatus(EStatus.UNLOCK);
+        item.updateStatus(EStatus.HAVING);
 
         itemRepository.save(item);
     }
