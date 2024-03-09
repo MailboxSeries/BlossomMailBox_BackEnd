@@ -97,7 +97,7 @@ jwt:
   refresh-token-expire-period: 1209600
 
 server:
-  cookie-address: localhost:5173
+  cookie-address: localhost
   client-address: localhost:5173
 
 crypt:

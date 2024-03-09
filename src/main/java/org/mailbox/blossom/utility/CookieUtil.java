@@ -28,12 +28,13 @@ public class CookieUtil {
         Cookie cookie = new Cookie(name, value);
         cookie.setDomain(cookieDomain);
         cookie.setPath("/");
+        cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
 
-    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieDomain, String name) {
         Cookie[] cookies = request.getCookies();
 
         if (cookies == null) {
@@ -42,10 +43,16 @@ public class CookieUtil {
 
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(name)) {
-                cookie.setValue("");
-                cookie.setMaxAge(0);
-                cookie.setPath("/");
-                response.addCookie(cookie);
+                Cookie removedCookie = new Cookie(name, null);
+                removedCookie.setPath("/");
+                removedCookie.setMaxAge(0);
+                removedCookie.setHttpOnly(true);
+
+                if (cookie.getSecure()) {
+                    removedCookie.setSecure(true);
+                }
+
+                response.addCookie(removedCookie);
             }
         }
     }

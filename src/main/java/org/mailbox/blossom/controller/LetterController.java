@@ -2,7 +2,6 @@ package org.mailbox.blossom.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.mailbox.blossom.annotation.UserId;
 import org.mailbox.blossom.dto.common.ResponseDto;
 import org.mailbox.blossom.dto.request.LetterDetailDto;
@@ -17,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/letters")

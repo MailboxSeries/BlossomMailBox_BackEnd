@@ -14,10 +14,7 @@ import org.mailbox.blossom.usecase.WithdrawalUseCase;
 import org.mailbox.blossom.utility.CookieUtil;
 import org.mailbox.blossom.utility.HeaderUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -53,8 +50,9 @@ public class AuthController {
             HttpServletResponse response
     ) {
         withdrawalUseCase.withdrawal(userId);
-        CookieUtil.deleteCookie(request, response, Constants.ACCESS_TOKEN);
-        CookieUtil.deleteCookie(request, response, Constants.REFRESH_TOKEN);
+        CookieUtil.deleteCookie(request, response, cookieDomain, Constants.ACCESS_TOKEN);
+        CookieUtil.deleteCookie(request, response, cookieDomain, Constants.REFRESH_TOKEN);
+        CookieUtil.deleteCookie(request, response, cookieDomain, "JSESSIONID");
 
         return ResponseDto.ok(null);
     }

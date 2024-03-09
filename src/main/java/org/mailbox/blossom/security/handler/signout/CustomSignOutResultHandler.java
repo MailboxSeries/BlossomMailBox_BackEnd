@@ -8,6 +8,7 @@ import org.mailbox.blossom.constant.Constants;
 import org.mailbox.blossom.dto.type.ErrorCode;
 import org.mailbox.blossom.security.handler.common.AbstractAuthenticationFailureHandler;
 import org.mailbox.blossom.utility.CookieUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -20,6 +21,10 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class CustomSignOutResultHandler extends AbstractAuthenticationFailureHandler implements LogoutSuccessHandler {
+
+    @Value("${server.cookie-address}")
+    private String cookieDomain;
+
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         if (authentication == null) {
@@ -27,9 +32,9 @@ public class CustomSignOutResultHandler extends AbstractAuthenticationFailureHan
             return;
         }
 
-        CookieUtil.deleteCookie(request, response, Constants.ACCESS_TOKEN);
-        CookieUtil.deleteCookie(request, response, Constants.REFRESH_TOKEN);
-        CookieUtil.deleteCookie(request, response, "JSESSIONID");
+        CookieUtil.deleteCookie(request, response, cookieDomain, Constants.ACCESS_TOKEN);
+        CookieUtil.deleteCookie(request, response, cookieDomain, Constants.REFRESH_TOKEN);
+        CookieUtil.deleteCookie(request, response, cookieDomain, "JSESSIONID");
 
         setSuccessResponse(response);
     }

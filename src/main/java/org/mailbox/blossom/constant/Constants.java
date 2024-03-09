@@ -22,7 +22,7 @@ public class Constants {
     public static String LETTER_ACTIVE_STATUS = "active";
     public static String LETTER_INACTIVE_STATUS = "inactive";
 
-    public static LocalDate START_DATE = LocalDate.of(2024, 3, 10);
+    public static LocalDate START_DATE = LocalDate.of(2024, 3, 6);
 
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             "/api/v1/auth/reissue",
