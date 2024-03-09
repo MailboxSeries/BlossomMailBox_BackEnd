@@ -23,26 +23,28 @@ public class SkinController {
     // 2-2. 스킨 목록 확인
     @GetMapping("")
     public ResponseDto<?> readSkin(
-            @UserId String encodedUserId
+            @UserId String userId
     ) {
-        return ResponseDto.ok(readSkinUserCase.readSkin(encodedUserId));
+        return ResponseDto.ok(readSkinUserCase.readSkin(userId));
     }
 
     // 2-3. 스킨 장착 상태 변경
     @PutMapping("")
     public ResponseDto<?> changeSkin(
-            @UserId String encodedUserId, @Valid @RequestBody SkinInfoDto skinInfoDto
+            @UserId String userId,
+            @Valid @RequestBody SkinInfoDto skinInfoDto
     ) {
-        updateSkinUserCase.updateSkin(encodedUserId, skinInfoDto);
+        updateSkinUserCase.updateSkin(userId, skinInfoDto);
         return ResponseDto.ok(null);
     }
 
     // 2-4. 스킨 상태 변경
     @PatchMapping("")
     public ResponseDto<?> changeSkinStatus(
-            @UserId String encodedUserId, @Valid @RequestBody SkinStatusInfoDto skinStatusInfoDto
+            @UserId String userId,
+            @Valid @RequestBody SkinStatusInfoDto skinStatusInfoDto
     ) {
-        updateSkinStatusUserCase.updateSkinStatus(encodedUserId, skinStatusInfoDto);
+        updateSkinStatusUserCase.updateSkinStatus(userId, skinStatusInfoDto);
         return ResponseDto.ok(null);
     }
 
