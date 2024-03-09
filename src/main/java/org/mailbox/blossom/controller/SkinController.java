@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/skins")
 public class SkinController {
 
-    private final ReadSkinUseCase readSkinUserCase;
-    private final UpdateSkinUseCase updateSkinUserCase;
+    private final ReadSkinUseCase readSkinUseCase;
+    private final UpdateSkinUseCase updateSkinUseCase;
     private final UpdateSkinStatusUserCase updateSkinStatusUserCase;
 
     // 2-2. 스킨 목록 확인
@@ -25,7 +25,7 @@ public class SkinController {
     public ResponseDto<?> readSkin(
             @UserId String userId
     ) {
-        return ResponseDto.ok(readSkinUserCase.readSkin(userId));
+        return ResponseDto.ok(readSkinUseCase.readSkin(userId));
     }
 
     // 2-3. 스킨 장착 상태 변경
@@ -34,7 +34,7 @@ public class SkinController {
             @UserId String userId,
             @Valid @RequestBody SkinInfoDto skinInfoDto
     ) {
-        updateSkinUserCase.updateSkin(userId, skinInfoDto);
+        updateSkinUseCase.updateSkin(userId, skinInfoDto);
         return ResponseDto.ok(null);
     }
 

@@ -1,6 +1,5 @@
 package org.mailbox.blossom.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
