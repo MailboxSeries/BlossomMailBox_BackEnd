@@ -40,7 +40,7 @@ public class AttendanceService implements CheckAttendanceUseCase, AttendUseCase 
         User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        return AttendanceStatusDto.of(itemRepository.existsByUserIdAndCreatedAtDate(user.getId().toString(), LocalDate.now()));
+        return AttendanceStatusDto.of(itemRepository.existsByUserIdAndCreatedAtDate(user.getId(), LocalDate.now()));
     }
 
 
