@@ -71,6 +71,7 @@ public class SecurityConfig {
                         .logoutUrl("/api/v1/auth/sign-out")
                         .addLogoutHandler(customSignOutProcessHandler)
                         .logoutSuccessHandler(customSignOutResultHandler)
+                        .deleteCookies("JSESSIONID")
                 )
 
                 .exceptionHandling((exceptionHandling) ->

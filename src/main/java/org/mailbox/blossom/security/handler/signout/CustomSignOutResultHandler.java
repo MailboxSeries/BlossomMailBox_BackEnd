@@ -34,7 +34,6 @@ public class CustomSignOutResultHandler extends AbstractAuthenticationFailureHan
 
         CookieUtil.deleteCookie(request, response, cookieDomain, Constants.ACCESS_TOKEN);
         CookieUtil.deleteCookie(request, response, cookieDomain, Constants.REFRESH_TOKEN);
-        CookieUtil.deleteCookie(request, response, cookieDomain, "JSESSIONID");
 
         setSuccessResponse(response);
     }

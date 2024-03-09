@@ -32,8 +32,8 @@ public class AuthController {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        String refreshToken = HeaderUtil.refineHeader(request, Constants.AUTHORIZATION_HEADER, Constants.BEARER_PREFIX)
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_AUTHORIZATION_HEADER));
+        String refreshToken = CookieUtil.refineCookie(request, Constants.REFRESH_TOKEN)
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_HEADER_ERROR));
 
         JwtTokenDto jwtTokenDto = reissueJWTUseCase.reissueJWT(refreshToken);
 
@@ -52,7 +52,7 @@ public class AuthController {
         withdrawalUseCase.withdrawal(userId);
         CookieUtil.deleteCookie(request, response, cookieDomain, Constants.ACCESS_TOKEN);
         CookieUtil.deleteCookie(request, response, cookieDomain, Constants.REFRESH_TOKEN);
-        CookieUtil.deleteCookie(request, response, cookieDomain, "JSESSIONID");
+        CookieUtil.deleteCookie(request, response, null, "JSESSIONID");
 
         return ResponseDto.ok(null);
     }
