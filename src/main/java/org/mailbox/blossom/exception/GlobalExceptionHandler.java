@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mailbox.blossom.dto.common.ResponseDto;
 import org.mailbox.blossom.dto.type.ErrorCode;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -28,6 +29,12 @@ public class GlobalExceptionHandler {
     public ResponseDto<?> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         log.error("GlobalExceptionHandler catch HttpMessageNotReadableException : {}", e.getMessage());
         return ResponseDto.fail(new CommonException(ErrorCode.BAD_REQUEST_JSON));
+    }
+
+    @ExceptionHandler(value = {HttpMediaTypeNotSupportedException.class})
+    public ResponseDto<?> handleHttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e) {
+        log.error("GlobalExceptionHandler catch HttpMediaTypeNotSupportedException : {}", e.getMessage());
+        return ResponseDto.fail(new CommonException(ErrorCode.UNSUPPORTED_MEDIA_TYPE));
     }
 
     // 지원되지 않는 HTTP 메소드를 사용할 때 발생하는 예외

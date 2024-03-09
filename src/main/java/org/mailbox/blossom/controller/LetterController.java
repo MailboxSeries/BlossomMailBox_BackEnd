@@ -9,7 +9,7 @@ import org.mailbox.blossom.usecase.ReadLetterByDateUseCase;
 import org.mailbox.blossom.usecase.ReadLetterDetailUseCase;
 import org.mailbox.blossom.usecase.ReadLetterUseCase;
 import org.mailbox.blossom.usecase.WriteLetterUseCase;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,7 +33,11 @@ public class LetterController {
     }
 
     // 3-3. 편지 작성
-    @PostMapping("")
+    @PostMapping(
+            value ="",
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseDto<?> writeLetter(@UserId String userId,
                                       @Valid @RequestPart("body") LetterDetailDto letterDetailDto,
                                       @RequestPart("image") MultipartFile image

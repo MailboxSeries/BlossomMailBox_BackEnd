@@ -28,6 +28,7 @@ import javax.crypto.IllegalBlockSizeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.mailbox.blossom.constant.Constants.*;
@@ -42,7 +43,7 @@ public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, Rea
 
     @Override
     public LetterStatusListDto readLetters(String userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         LocalDate userCreatedAt = user.getCreatedAt();
@@ -70,7 +71,7 @@ public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, Rea
     @Override
     @Transactional
     public void writeLetter(String userId, LetterDetailDto letterDetailDto, MultipartFile image) throws IllegalBlockSizeException, BadPaddingException {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         String fileUrl = null;
@@ -79,21 +80,21 @@ public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, Rea
         }
 
         if (letterDetailDto.id() == null) {
-            User receiver = userRepository.findById(cryptUtil.decrypt(letterDetailDto.receiverId()))
+            User receiver = userRepository.findById(UUID.fromString(cryptUtil.decrypt(letterDetailDto.receiverId())))
                     .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
-            letterRepository.save(Letter.createLetter(letterDetailDto.sender(), receiver.getNickname(),letterDetailDto.Content(), fileUrl, receiver, null));
+            letterRepository.save(Letter.createLetter(letterDetailDto.sender(), receiver.getNickname(), letterDetailDto.content(), fileUrl, receiver, null));
         } else {
             Letter letter = letterRepository.findWithUserById(Long.valueOf(letterDetailDto.id()))
                     .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_LETTER));
 
-            letterRepository.save(Letter.createLetter(letter.getReceiver(), letter.getSender(), letterDetailDto.Content(), fileUrl, user, letter));
+            letterRepository.save(Letter.createLetter(letter.getReceiver(), letter.getSender(), letterDetailDto.content(), fileUrl, user, letter));
         }
     }
 
 
     @Override
     public LetterListByDateDto readLettersByDate(String userId, Long index) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         LocalDate startDate = START_DATE;

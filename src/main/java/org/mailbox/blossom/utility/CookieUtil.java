@@ -17,21 +17,24 @@ public class CookieUtil {
                 .findFirst().map(Cookie::getValue);
     }
 
-    public static void addCookie(HttpServletResponse response, String name, String value) {
+    public static void addCookie(HttpServletResponse response, String cookieDomain, String name, String value) {
         Cookie cookie = new Cookie(name, value);
+        cookie.setDomain(cookieDomain);
         cookie.setPath("/");
         response.addCookie(cookie);
     }
 
-    public static void addSecureCookie(HttpServletResponse response, String name, String value, Integer maxAge) {
+    public static void addSecureCookie(HttpServletResponse response, String cookieDomain, String name, String value, Integer maxAge) {
         Cookie cookie = new Cookie(name, value);
+        cookie.setDomain(cookieDomain);
         cookie.setPath("/");
+        cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
 
-    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
+    public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String cookieDomain, String name) {
         Cookie[] cookies = request.getCookies();
 
         if (cookies == null) {
@@ -40,9 +43,16 @@ public class CookieUtil {
 
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(name)) {
-                cookie.setMaxAge(0);
-                cookie.setPath("/");
-                response.addCookie(cookie);
+                Cookie removedCookie = new Cookie(name, null);
+                removedCookie.setPath("/");
+                removedCookie.setMaxAge(0);
+                removedCookie.setHttpOnly(true);
+
+                if (cookie.getSecure()) {
+                    removedCookie.setSecure(true);
+                }
+
+                response.addCookie(removedCookie);
             }
         }
     }

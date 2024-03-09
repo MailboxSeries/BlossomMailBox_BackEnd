@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.mailbox.blossom.constant.Constants.ANIMAL_SKIN;
@@ -36,17 +37,17 @@ public class AttendanceService implements CheckAttendanceUseCase, AttendUseCase 
 
     @Override
     public AttendanceStatusDto checkAttendance(String userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        return AttendanceStatusDto.of(itemRepository.existsByUserIdAndCreatedAtDate(user.getId().toString(), LocalDate.now()));
+        return AttendanceStatusDto.of(itemRepository.existsByUserIdAndCreatedAtDate(user.getId(), LocalDate.now()));
     }
 
 
     @Override
     @Transactional
     public AttendanceResultDto attend(String userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         List<Skin> userSkins = itemRepository.findItemsWithSkinsByUserId(user.getId())

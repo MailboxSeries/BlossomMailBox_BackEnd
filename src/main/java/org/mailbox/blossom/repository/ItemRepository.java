@@ -18,7 +18,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByUser(User user);
 
     @Query("SELECT COUNT(i) > 0 FROM Item i WHERE i.user.id = :userId AND FUNCTION('DATE', i.createdAt) = :date")
-    boolean existsByUserIdAndCreatedAtDate(@Param("userId") String userId, @Param("date") LocalDate date);
+    boolean existsByUserIdAndCreatedAtDate(@Param("userId") UUID userId, @Param("date") LocalDate date);
 
     @Query("SELECT i FROM Item i JOIN FETCH i.skin WHERE i.user.id = :userId")
     List<Item> findItemsWithSkinsByUserId(@Param("userId") UUID userId);
