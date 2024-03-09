@@ -2,6 +2,7 @@ package org.mailbox.blossom.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.mailbox.blossom.annotation.UserId;
 import org.mailbox.blossom.dto.common.ResponseDto;
 import org.mailbox.blossom.dto.request.LetterDetailDto;
@@ -9,6 +10,7 @@ import org.mailbox.blossom.usecase.ReadLetterByDateUseCase;
 import org.mailbox.blossom.usecase.ReadLetterDetailUseCase;
 import org.mailbox.blossom.usecase.ReadLetterUseCase;
 import org.mailbox.blossom.usecase.WriteLetterUseCase;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/letters")
@@ -33,7 +36,11 @@ public class LetterController {
     }
 
     // 3-3. 편지 작성
-    @PostMapping("")
+    @PostMapping(
+            value ="",
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseDto<?> writeLetter(@UserId String userId,
                                       @Valid @RequestPart("body") LetterDetailDto letterDetailDto,
                                       @RequestPart("image") MultipartFile image
