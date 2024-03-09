@@ -119,11 +119,17 @@ public class LetterService implements ReadLetterUseCase, WriteLetterUseCase, Rea
         Letter letter = letterRepository.findWithUserById(letterId)
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_LETTER));
 
-
-        return LetterDetailInfoDto.of(
-                SendLetter.of(letter.getParentLetter().getImageUrl(), letter.getParentLetter().getContent()),
-                ReplyLetter.of(letter.getImageUrl(), letter.getContent(), letter.getSender())
-        );
-
+        if(letter.getParentLetter() != null) {
+            return LetterDetailInfoDto.of(
+                    SendLetter.of(letter.getParentLetter().getImageUrl(), letter.getParentLetter().getContent()),
+                    ReplyLetter.of(letter.getImageUrl(), letter.getContent(), letter.getSender())
+            );
+        } else {
+            return LetterDetailInfoDto.of(
+                    null,
+                    ReplyLetter.of(letter.getImageUrl(), letter.getContent(), letter.getSender())
+            );
+        }
     }
+
 }
