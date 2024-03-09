@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONValue;
+import org.mailbox.blossom.constant.Constants;
 import org.mailbox.blossom.dto.type.ErrorCode;
 import org.mailbox.blossom.security.handler.common.AbstractAuthenticationFailureHandler;
 import org.mailbox.blossom.utility.CookieUtil;
@@ -26,8 +27,8 @@ public class CustomSignOutResultHandler extends AbstractAuthenticationFailureHan
             return;
         }
 
-        CookieUtil.deleteCookie(request, response, "accessToken");
-        CookieUtil.deleteCookie(request, response, "refreshToken");
+        CookieUtil.deleteCookie(request, response, Constants.ACCESS_TOKEN);
+        CookieUtil.deleteCookie(request, response, Constants.REFRESH_TOKEN);
         CookieUtil.deleteCookie(request, response, "JSESSIONID");
 
         setSuccessResponse(response);

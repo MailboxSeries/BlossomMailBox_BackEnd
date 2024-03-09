@@ -40,7 +40,7 @@ public class AuthController {
 
         JwtTokenDto jwtTokenDto = reissueJWTUseCase.reissueJWT(refreshToken);
 
-        CookieUtil.addCookie(response, cookieDomain,Constants.ACCESS_TOKEN, jwtTokenDto.getAccessToken());
+        CookieUtil.addCookie(response, cookieDomain, Constants.ACCESS_TOKEN, jwtTokenDto.getAccessToken());
         CookieUtil.addSecureCookie(response, cookieDomain, Constants.REFRESH_TOKEN, jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresInRefreshToken());
 
         return ResponseDto.ok(null);
@@ -53,8 +53,8 @@ public class AuthController {
             HttpServletResponse response
     ) {
         withdrawalUseCase.withdrawal(userId);
-        CookieUtil.deleteCookie(request, response, "accessToken");
-        CookieUtil.deleteCookie(request, response, "refreshToken");
+        CookieUtil.deleteCookie(request, response, Constants.ACCESS_TOKEN);
+        CookieUtil.deleteCookie(request, response, Constants.REFRESH_TOKEN);
 
         return ResponseDto.ok(null);
     }
