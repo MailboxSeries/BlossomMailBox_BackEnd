@@ -13,6 +13,7 @@ import org.mailbox.blossom.usecase.ReissueJWTUseCase;
 import org.mailbox.blossom.usecase.WithdrawalUseCase;
 import org.mailbox.blossom.utility.CookieUtil;
 import org.mailbox.blossom.utility.HeaderUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthController {
+
+    @Value("${server.cookie-address}")
+    private String cookieDomain;
+
     private final ReissueJWTUseCase reissueJWTUseCase;
     private final WithdrawalUseCase withdrawalUseCase;
 
@@ -35,8 +40,8 @@ public class AuthController {
 
         JwtTokenDto jwtTokenDto = reissueJWTUseCase.reissueJWT(refreshToken);
 
-        CookieUtil.addCookie(response, "accessToken", jwtTokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, "refreshToken", jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresInRefreshToken());
+        CookieUtil.addCookie(response, cookieDomain,Constants.ACCESS_TOKEN, jwtTokenDto.getAccessToken());
+        CookieUtil.addSecureCookie(response, cookieDomain, Constants.REFRESH_TOKEN, jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresInRefreshToken());
 
         return ResponseDto.ok(null);
     }

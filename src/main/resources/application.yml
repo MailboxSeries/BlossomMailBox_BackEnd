@@ -6,7 +6,7 @@ spring:
   # Datasource 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blossom?useSSL=false&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://172.30.0.2:3306/blossom?useSSL=false&serverTimezone=Asia/Seoul&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: 'root'
     password: qwer1234
     hikari:
@@ -47,7 +47,7 @@ spring:
             client-id: "3543889d4182152b52063b887ed4d265"
             client-secret: "a2HbN3KNTqRYb6s8anEJUZjbwXtfmuV3"
             client-authentication-method: client_secret_post
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            redirect-uri: https://api.blossommailbox.com/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
             client-name: kakao
             scope:
@@ -55,14 +55,14 @@ spring:
           naver:
             client-id: "VthzV0S1RkbcE9znrWYe"
             client-secret: "NgJt0YJShU"
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            redirect-uri: https://api.blossommailbox.com/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             scope:
               - name
           google:
             clientId: "97605122659-617hhbt2rrrdub4qkibd2d4lno5dhmmq.apps.googleusercontent.com"
             clientSecret: "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"
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            redirect-uri: https://api.blossommailbox.com/login/oauth2/code/google
             scope:
               - profile
         provider:
@@ -97,7 +97,8 @@ jwt:
   refresh-token-expire-period: 1209600
 
 server:
-  client-address: http://localhost:5173
+  cookie-address: blossommailbox.com
+  client-address: https://blossommailbox.com
 
 crypt:
   key: diejfkslwodnflsnvidowhfkdiehskds

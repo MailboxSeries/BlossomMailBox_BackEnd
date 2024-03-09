@@ -9,6 +9,8 @@ public class Constants {
     public static String USER_ROLE_CLAIM_NAME = "rol";
     public static String BEARER_PREFIX = "Bearer ";
     public static String AUTHORIZATION_HEADER = "Authorization";
+    public static String ACCESS_TOKEN = "accessToken";
+    public static String REFRESH_TOKEN = "refreshToken";
     public static String HAIR_SKIN = "hair";
     public static String FACE_SKIN = "face";
     public static String TOP_SKIN = "top";
