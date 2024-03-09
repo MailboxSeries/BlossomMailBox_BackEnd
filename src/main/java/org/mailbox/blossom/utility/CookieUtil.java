@@ -28,8 +28,8 @@ public class CookieUtil {
         Cookie cookie = new Cookie(name, value);
         cookie.setDomain(cookieDomain);
         cookie.setPath("/");
-        cookie.setSecure(true);
         cookie.setHttpOnly(true);
+        cookie.setSecure(true);
         cookie.setMaxAge(maxAge);
         response.addCookie(cookie);
     }
@@ -44,13 +44,13 @@ public class CookieUtil {
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(name)) {
                 Cookie removedCookie = new Cookie(name, null);
+                if (cookieDomain != null) {
+                    removedCookie.setDomain(cookieDomain);
+                }
                 removedCookie.setPath("/");
                 removedCookie.setMaxAge(0);
                 removedCookie.setHttpOnly(true);
-
-                if (cookie.getSecure()) {
-                    removedCookie.setSecure(true);
-                }
+                removedCookie.setSecure(true);
 
                 response.addCookie(removedCookie);
             }

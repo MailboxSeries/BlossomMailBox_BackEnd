@@ -52,7 +52,7 @@ public class AuthController {
         withdrawalUseCase.withdrawal(userId);
         CookieUtil.deleteCookie(request, response, cookieDomain, Constants.ACCESS_TOKEN);
         CookieUtil.deleteCookie(request, response, cookieDomain, Constants.REFRESH_TOKEN);
-        CookieUtil.deleteCookie(request, response, cookieDomain, "JSESSIONID");
+        CookieUtil.deleteCookie(request, response, null, "JSESSIONID");
 
         return ResponseDto.ok(null);
     }
