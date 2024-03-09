@@ -35,7 +35,7 @@ public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSk
 
     @Override
     public SkinListDto readSkin(String userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
         List<Item> itemList = itemRepository.findByUser(user);
 
@@ -81,7 +81,7 @@ public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSk
     @Override
     @Transactional
     public void updateSkin(String userId, SkinInfoDto skinInfoDto) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         UserStatus userStatus = userStatusRepository.findById(user.getId())
@@ -105,7 +105,7 @@ public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSk
     @Override
     @Transactional
     public void updateSkinStatus(String userId, SkinStatusInfoDto skinStatusInfoDto) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
         Item item = itemRepository.findItemByTypeAndArrayIdAndUserId(skinStatusInfoDto.type(), skinStatusInfoDto.index(), user.getId())
