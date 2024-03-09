@@ -9,6 +9,8 @@ public class Constants {
     public static String USER_ROLE_CLAIM_NAME = "rol";
     public static String BEARER_PREFIX = "Bearer ";
     public static String AUTHORIZATION_HEADER = "Authorization";
+    public static String ACCESS_TOKEN = "accessToken";
+    public static String REFRESH_TOKEN = "refreshToken";
     public static String HAIR_SKIN = "hair";
     public static String FACE_SKIN = "face";
     public static String TOP_SKIN = "top";
@@ -20,7 +22,7 @@ public class Constants {
     public static String LETTER_ACTIVE_STATUS = "active";
     public static String LETTER_INACTIVE_STATUS = "inactive";
 
-    public static LocalDate START_DATE = LocalDate.of(2024, 3, 10);
+    public static LocalDate START_DATE = LocalDate.of(2024, 3, 6);
 
     public static List<String> NO_NEED_AUTH_URLS = List.of(
             "/api/v1/auth/reissue",

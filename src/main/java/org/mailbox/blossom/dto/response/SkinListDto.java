@@ -99,8 +99,13 @@ public class SkinListDto extends SelfValidating<SkinListDto> {
 
     @Getter
     public static class Category extends SelfValidating<SkinListDto> {
+        @NotNull(message = "having must be provided.")
         private final List<Integer> having;
+
+        @NotNull(message = "having must be provided.")
         private final List<Integer> unlock;
+
+        @NotNull(message = "having must be provided.")
         private final List<Integer> lock;
 
         @Builder

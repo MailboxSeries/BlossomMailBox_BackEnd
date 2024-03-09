@@ -12,9 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
-    Optional<User> findById(UUID id);
-
+public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByIdAndRefreshToken(UUID id, String refreshToken);
 
     @Query("select u.id as id, u.role as role, u.password as password from User u where u.id = :id and u.refreshToken is not null")

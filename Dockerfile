@@ -1,9 +1,9 @@
-FROM gradle:8.6.0-jdk17-jammy AS builder
-COPY . /usr/src
-WORKDIR /usr/src
-RUN gradle wrapper --gradle-version 8.5
-RUN ./gradlew clean build -x test
-
 FROM openjdk:17-slim
-COPY --from=builder /usr/src/build/libs/blossom-0.0.1-SNAPSHOT.jar /usr/app/app.jar
-ENTRYPOINT ["java", "-jar", "/usr/app/app.jar"]
+
+WORKDIR /app
+
+ARG JAR_PATH=./build/libs
+
+COPY ${JAR_PATH}/blossom-0.0.1-SNAPSHOT.jar ./app.jar
+
+CMD ["java","-jar","./app.jar","--spring.profiles.active=dev"]

@@ -3,6 +3,7 @@ package org.mailbox.blossom.security.handler.oauth2;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.mailbox.blossom.constant.Constants;
 import org.mailbox.blossom.dto.response.JwtTokenDto;
 import org.mailbox.blossom.repository.UserRepository;
 import org.mailbox.blossom.security.info.UserPrincipal;
@@ -21,7 +22,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Value("${server.client-address}")
-    private String address;
+    private String serverAddress;
+
+    @Value("${server.cookie-address}")
+    private String cookieDomain;
 
     private final UserRepository userRepository;
 
@@ -40,8 +44,8 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         userRepository.updateRefreshToken(userPrincipal.getId(), jwtTokenDto.getRefreshToken());
 
-        CookieUtil.addCookie(response, "accessToken", jwtTokenDto.getAccessToken());
-        CookieUtil.addSecureCookie(response, "refreshToken", jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresInRefreshToken());
+        CookieUtil.addCookie(response, cookieDomain, Constants.ACCESS_TOKEN, jwtTokenDto.getAccessToken());
+        CookieUtil.addSecureCookie(response, cookieDomain, Constants.REFRESH_TOKEN, jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresInRefreshToken());
 
         String encodedUserId;
 
@@ -51,6 +55,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             throw new RuntimeException(e);
         }
 
-        response.sendRedirect(address + "/home?u=" + encodedUserId);
+        response.sendRedirect(serverAddress + "/home?u=" + encodedUserId);
     }
 }
