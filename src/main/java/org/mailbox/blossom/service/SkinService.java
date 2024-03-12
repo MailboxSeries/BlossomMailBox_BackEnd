@@ -2,6 +2,7 @@ package org.mailbox.blossom.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.mailbox.blossom.constant.Constants;
 import org.mailbox.blossom.domain.Item;
 import org.mailbox.blossom.domain.Skin;
 import org.mailbox.blossom.domain.User;
@@ -88,7 +89,7 @@ public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSk
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER_STATUS));
 
         userStatus.updateSkinInfo(
-                EGender.valueOf(skinInfoDto.sex()),
+                EGender.valueOf(skinInfoDto.sex().toUpperCase()),
                 skinInfoDto.top(),
                 skinInfoDto.bottom(),
                 skinInfoDto.hair(),
@@ -108,11 +109,20 @@ public class SkinService implements ReadSkinUseCase, UpdateSkinUseCase, UpdateSk
         User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_USER));
 
-        Item item = itemRepository.findItemByTypeAndArrayIdAndUserId(skinStatusInfoDto.type(), skinStatusInfoDto.index(), user.getId())
-                .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ITEM));
+        if(skinStatusInfoDto.type().equals("animal")){
+            Item item = itemRepository.findItemByTypeAndArrayIdAndUserId(Constants.ANIMAL_SKIN, skinStatusInfoDto.index(), user.getId())
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ITEM));
 
-        item.updateStatus(EStatus.HAVING);
+            item.updateStatus(EStatus.HAVING);
+            itemRepository.save(item);
+        }else {
+            Item item = itemRepository.findItemByTypeAndArrayIdAndUserId(skinStatusInfoDto.type(), skinStatusInfoDto.index(), user.getId())
+                    .orElseThrow(() -> new CommonException(ErrorCode.NOT_FOUND_ITEM));
 
-        itemRepository.save(item);
+            item.updateStatus(EStatus.HAVING);
+            itemRepository.save(item);
+        }
+
+
     }
 }
